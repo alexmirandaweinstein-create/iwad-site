@@ -21,20 +21,27 @@ sizeNightToStory();
 const playPaperCrumple = () => {
   audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
   const now = audioContext.currentTime;
-  const duration = 0.72;
+  const duration = 0.52;
   const buffer = audioContext.createBuffer(1, audioContext.sampleRate * duration, audioContext.sampleRate);
   const samples = buffer.getChannelData(0);
-  let softNoise = 0;
 
+  // A bed of quiet friction, like paper sliding against itself.
   for (let i = 0; i < samples.length; i += 1) {
     const progress = i / samples.length;
-    softNoise = softNoise * 0.82 + (Math.random() * 2 - 1) * 0.18;
-    const folds =
-      Math.exp(-(((progress - 0.16) / 0.1) ** 2)) * 0.7 +
-      Math.exp(-(((progress - 0.43) / 0.15) ** 2)) * 0.95 +
-      Math.exp(-(((progress - 0.72) / 0.17) ** 2)) * 0.55;
-    const fineRustle = (Math.random() * 2 - 1) * 0.24;
-    samples[i] = (softNoise + fineRustle) * folds;
+    samples[i] = (Math.random() * 2 - 1) * 0.025 * Math.sin(Math.PI * progress);
+  }
+
+  // Dozens of very short, uneven creases create a dry paper crunch.
+  for (let crease = 0; crease < 42; crease += 1) {
+    const start = Math.floor((0.03 + Math.random() * 0.43) * audioContext.sampleRate);
+    const length = Math.floor((0.003 + Math.random() * 0.018) * audioContext.sampleRate);
+    const strength = 0.08 + Math.random() * 0.24;
+
+    for (let i = 0; i < length && start + i < samples.length; i += 1) {
+      const position = i / length;
+      const envelope = Math.sin(Math.PI * position) ** 2;
+      samples[start + i] += (Math.random() * 2 - 1) * strength * envelope;
+    }
   }
 
   const source = audioContext.createBufferSource();
@@ -44,12 +51,12 @@ const playPaperCrumple = () => {
 
   source.buffer = buffer;
   highpass.type = 'highpass';
-  highpass.frequency.setValueAtTime(280, now);
+  highpass.frequency.setValueAtTime(520, now);
   lowpass.type = 'lowpass';
-  lowpass.frequency.setValueAtTime(3400, now);
-  lowpass.frequency.exponentialRampToValueAtTime(1200, now + duration);
+  lowpass.frequency.setValueAtTime(6800, now);
   gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.09, now + 0.09);
+  gain.gain.exponentialRampToValueAtTime(0.13, now + 0.025);
+  gain.gain.setValueAtTime(0.13, now + duration - 0.06);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
   source.connect(highpass).connect(lowpass).connect(gain).connect(audioContext.destination);
