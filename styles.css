@@ -184,12 +184,12 @@ h1 {
   margin: 0 auto;
 }
 
-.signup .formkit-fields {
+.signup .signup-fields {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   border-bottom: 1px solid rgba(213, 234, 230, .58);
 }
-.signup .formkit-field { min-width: 0; }
+.signup .signup-field { min-width: 0; }
 
 .signup input,
 .signup button {
@@ -210,15 +210,11 @@ h1 {
   transition: color .25s ease, transform .25s ease;
 }
 .signup button:hover { color: #fff; transform: translateY(-1px); }
-.signup .formkit-fields:focus-within { border-color: #e3f3ef; }
+.signup .signup-fields:focus-within { border-color: #e3f3ef; }
 .form-note, .form-message { grid-column: 1 / -1; }
 .form-note { margin: 9px 0 0; color: rgba(189, 207, 208, .5); font-size: 9px; letter-spacing: .08em; }
 .form-message { min-height: 16px; margin: 5px 0 0; color: #dcece7; font-size: 11px; }
-.signup .formkit-alert { grid-column: 1 / -1; margin: 7px 0 0; padding: 0; color: #dcece7; font-size: 11px; list-style: none; }
-.signup .formkit-alert:empty { display: none; }
-.signup .formkit-alert-success { grid-column: 1 / -1; margin: 14px 0 0; color: #dcece7; font-size: 12px; line-height: 1.6; }
-.signup[data-active] .formkit-submit { opacity: .55; pointer-events: none; }
-.kit-credit { margin: 5px auto 0; color: rgba(189, 207, 208, .34); font-size: 8px; letter-spacing: .09em; text-decoration: none; }
+.signup[data-active] button { opacity: .55; pointer-events: none; }
 
 .about-toggle {
   display: inline-flex;
@@ -298,11 +294,10 @@ footer span { margin-left: .55em; color: rgba(219, 231, 229, .66); }
   .invitation { margin-top: 44px; margin-bottom: 30px; font-size: 13px; }
   .desktop-break { display: none; }
   .signup { border: 0; gap: 10px; }
-  .signup .formkit-fields { grid-template-columns: 1fr; border: 0; gap: 10px; }
+  .signup .signup-fields { grid-template-columns: 1fr; border: 0; gap: 10px; }
   .signup input { padding: 13px 12px; border-bottom: 1px solid rgba(213, 234, 230, .58); text-align: center; }
   .signup button { padding: 12px; border: 1px solid rgba(213, 234, 230, .48); }
   .form-note, .form-message { grid-column: auto; }
-  .signup .formkit-alert, .signup .formkit-alert-success { grid-column: auto; }
   .form-message { order: 4; }
   .about[aria-hidden="false"] { margin-top: 28px; }
   .about-inner { padding-left: 22px; padding-right: 22px; }
