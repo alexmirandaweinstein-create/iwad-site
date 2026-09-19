@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Raleway:ital,wght@0,200;0,300;0,400;1,300&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=6" />
   </head>
   <body>
     <div class="night" aria-hidden="true">
@@ -19,7 +19,6 @@
       <div class="mist mist-one"></div>
       <div class="mist mist-two"></div>
       <div class="ridge ridge-back"></div>
-      <div class="ridge ridge-front"></div>
       <div class="grain"></div>
     </div>
 
@@ -29,45 +28,45 @@
         <h1 id="book-title">It Wasn’t<br />a Dream</h1>
         <p class="coming-soon">Coming soon</p>
         <p class="genre">A new adult contemporary fiction</p>
-        <p class="invitation">Some journeys take you everywhere<br class="desktop-break" /> except where you thought you were going.</p>
 
-        <form
-          class="signup"
-          id="signup-form"
-          method="post"
-          novalidate
-        >
+        <div class="paper-actions">
+          <button class="reveal-toggle about-toggle paper-scrap" type="button" aria-expanded="false" aria-controls="about-novel">
+            <span class="paper-label">About the novel</span>
+            <span class="toggle-mark" aria-hidden="true">+</span>
+          </button>
+          <button class="reveal-toggle waitlist-toggle paper-scrap" type="button" aria-expanded="false" aria-controls="waitlist-panel">
+            <span class="paper-label">Join the waitlist</span>
+            <span class="toggle-mark" aria-hidden="true">+</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="reveal-panel about" id="about-novel" aria-hidden="true">
+        <div class="about-inner">
+          <div class="paper-copy">
+            <p>After a much-needed post-breakup trip, 26-year-old Frankie decides to finally change what’s become a dreary life back home in Los Angeles. She takes her savings and embarks on a solo backpacking trip across Southeast Asia. Or what she begrudgingly deems her <em>Eat, Pray, Love</em> era.</p>
+            <p>As her adventure begins, she becomes obsessed with the idea of finding her next romance, solving her queerness, and ultimately rediscovering who she is, in an attempt to dislodge her many suppressed emotions. Only to be met with the realities of what she soon discovers as the banana pancake route. A Western-oriented breeding ground that almost swallows her whole as she ventures on this hot, drug-fueled odyssey, documenting it all through a series of detailed travel journals.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal-panel waitlist" id="waitlist-panel" aria-hidden="true">
+        <form class="signup" id="signup-form" method="post" novalidate>
+          <p class="waitlist-heading">Be first to know</p>
           <div class="signup-fields">
             <div class="signup-field">
               <label class="sr-only" for="email">Email address</label>
               <input id="email" name="email" type="email" autocomplete="email" aria-label="Email address" placeholder="Your email address" required />
             </div>
-            <button type="submit">
-              <span>Keep me informed</span>
-            </button>
+            <button type="submit"><span>Join the waitlist</span></button>
           </div>
           <p class="form-note">Occasional publishing news. Unsubscribe anytime.</p>
           <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
         </form>
-
-        <button class="about-toggle paper-scrap" type="button" aria-expanded="false" aria-controls="about-novel">
-          <span class="paper-label">About the novel</span>
-          <span class="toggle-mark" aria-hidden="true">+</span>
-        </button>
-      </section>
-
-      <section class="about" id="about-novel" aria-hidden="true">
-        <div class="about-inner">
-          <div class="paper-copy">
-            <p>At twenty-six, Frankie leaves home with a backpack, a one-way ticket, and the belief that somewhere across Southeast Asia, a better version of her is waiting.</p>
-            <p>Instead, she finds hostel bunk beds, fleeting romances, questionable decisions, and strangers who become harder to leave behind than any place. As the journey unfolds, so does the story Frankie has been telling herself—about why she left, who she loves, and what she is really searching for.</p>
-            <p><em>It Wasn’t a Dream</em> is a funny, intimate, and deeply human novel about the people we meet in passing, the stories we create to survive our twenties, and what happens when finding yourself turns out to be the wrong destination.</p>
-          </div>
-        </div>
       </section>
     </main>
 
     <footer>A novel by <span>Rizzo Ross</span></footer>
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
   </body>
 </html>

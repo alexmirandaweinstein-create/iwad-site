@@ -1,5 +1,4 @@
-const toggle = document.querySelector('.about-toggle');
-const about = document.querySelector('#about-novel');
+const toggles = document.querySelectorAll('.reveal-toggle');
 const form = document.querySelector('#signup-form');
 const message = document.querySelector('#form-message');
 const night = document.querySelector('.night');
@@ -18,10 +17,17 @@ new ResizeObserver(sizeNightToStory).observe(main);
 window.addEventListener('resize', sizeNightToStory);
 sizeNightToStory();
 
-toggle.addEventListener('click', () => {
-  const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-  toggle.setAttribute('aria-expanded', String(!isOpen));
-  about.setAttribute('aria-hidden', String(isOpen));
+toggles.forEach((toggle) => {
+  toggle.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
+    toggles.forEach((otherToggle) => {
+      const panel = document.querySelector(`#${otherToggle.getAttribute('aria-controls')}`);
+      const shouldOpen = otherToggle === toggle && !isOpen;
+      otherToggle.setAttribute('aria-expanded', String(shouldOpen));
+      panel.setAttribute('aria-hidden', String(!shouldOpen));
+    });
+  });
 });
 
 form.addEventListener('submit', async (event) => {

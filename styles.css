@@ -156,8 +156,8 @@ h1 {
   font-size: clamp(104px, 12.5vw, 190px);
   line-height: .82;
   letter-spacing: -.01em;
-  color: #e7f4ee;
-  text-shadow: 0 3px 36px rgba(157, 215, 210, .12), 0 2px 20px rgba(0, 0, 0, .22);
+  color: #f4e6a8;
+  text-shadow: 0 3px 38px rgba(244, 230, 168, .13), 0 2px 20px rgba(0, 0, 0, .18);
 }
 
 .coming-soon {
@@ -179,19 +179,17 @@ h1 {
   text-transform: uppercase;
 }
 
-.invitation {
-  margin: 52px auto 34px;
-  color: #c7d5d4;
-  font-size: 14px;
-  line-height: 1.7;
-  letter-spacing: .01em;
-}
-
 .signup {
   display: grid;
   width: min(470px, 100%);
   margin: 0 auto;
+  padding: 30px 34px 26px;
+  border: 1px solid rgba(244, 230, 168, .42);
+  background: rgba(12, 39, 72, .78);
+  box-shadow: 0 18px 50px rgba(1, 10, 28, .24), inset 0 0 30px rgba(83, 126, 156, .08);
 }
+
+.waitlist-heading { margin: 0 0 21px; color: #f4e6a8; font-family: "Raleway", sans-serif; font-size: 18px; letter-spacing: .12em; text-transform: uppercase; }
 
 .signup .signup-fields {
   display: grid;
@@ -225,7 +223,15 @@ h1 {
 .form-message { min-height: 16px; margin: 5px 0 0; color: #dcece7; font-size: 11px; }
 .signup[data-active] button { opacity: .55; pointer-events: none; }
 
-.about-toggle {
+.paper-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  margin-top: 56px;
+}
+
+.paper-scrap {
   position: relative;
   z-index: 3;
   display: inline-flex;
@@ -234,7 +240,7 @@ h1 {
   gap: 12px;
   width: 154px;
   min-height: 66px;
-  margin: 44px 0 0;
+  margin: 0;
   padding: 15px 21px;
   border: 0;
   color: #17314a;
@@ -252,44 +258,46 @@ h1 {
   filter: drop-shadow(0 8px 10px rgba(0, 5, 16, .35));
   transition: transform .5s cubic-bezier(.22, 1, .36, 1), filter .35s ease;
 }
-.about-toggle::before,
-.about-toggle::after {
+.paper-scrap::before,
+.paper-scrap::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-.about-toggle::before {
+.paper-scrap::before {
   background:
     linear-gradient(78deg, transparent 46%, rgba(40, 54, 58, .14) 48%, rgba(255, 255, 255, .25) 50%, transparent 52%),
     linear-gradient(-24deg, transparent 58%, rgba(52, 65, 68, .11) 60%, transparent 63%);
   mix-blend-mode: multiply;
 }
-.about-toggle::after {
+.paper-scrap::after {
   inset: 7px;
   border: 1px dashed rgba(22, 49, 74, .15);
   clip-path: inherit;
 }
-.about-toggle:hover {
+.paper-scrap:hover {
   transform: rotate(1deg) translateY(-4px) scale(1.04);
   filter: drop-shadow(0 12px 14px rgba(0, 5, 16, .42));
 }
 .paper-label, .toggle-mark { position: relative; z-index: 1; }
 .toggle-mark { font-size: 16px; font-weight: 300; transition: transform .45s ease; }
-.about-toggle[aria-expanded="true"] {
+.paper-scrap[aria-expanded="true"] {
   transform: rotate(.5deg) translateY(17px) scale(.9);
   filter: drop-shadow(0 5px 7px rgba(0, 5, 16, .25));
 }
-.about-toggle[aria-expanded="true"] .toggle-mark { transform: rotate(45deg); }
+.paper-scrap[aria-expanded="true"] .toggle-mark { transform: rotate(45deg); }
+.waitlist-toggle { transform: rotate(1.5deg); background: linear-gradient(145deg, #f4e6a8, #d7c783 60%, #eee2aa); }
+.waitlist-toggle:hover { transform: rotate(-1deg) translateY(-4px) scale(1.04); }
 
-.about {
+.reveal-panel {
   display: grid;
   grid-template-rows: 0fr;
   width: min(620px, 100%);
   color: #cad8d6;
   transition: grid-template-rows .65s cubic-bezier(.22, 1, .36, 1), margin .65s ease;
 }
-.about[aria-hidden="false"] { grid-template-rows: 1fr; margin-top: 34px; }
+.reveal-panel[aria-hidden="false"] { grid-template-rows: 1fr; margin-top: 34px; }
 .about-inner {
   position: relative;
   overflow: hidden;
@@ -328,6 +336,10 @@ h1 {
 .about em { font-family: "Raleway", sans-serif; font-weight: 400; }
 .about p:last-child { margin-bottom: 0; }
 
+.waitlist { overflow: hidden; width: min(540px, 100%); }
+.waitlist .signup { min-height: 0; overflow: hidden; opacity: 0; transform: translateY(-16px) scale(.94); transition: opacity .35s ease, transform .6s cubic-bezier(.22, 1, .36, 1); }
+.waitlist[aria-hidden="false"] .signup { opacity: 1; transform: translateY(0) scale(1); }
+
 footer {
   height: 46px;
   display: flex;
@@ -353,20 +365,19 @@ footer span { margin-left: .55em; color: rgba(219, 231, 229, .66); }
   h1 { font-size: clamp(78px, 23.5vw, 104px); line-height: .84; letter-spacing: -.015em; }
   .coming-soon { margin-top: 34px; font-size: 12px; }
   .genre { margin-top: 11px; font-size: 8px; letter-spacing: .16em; }
-  .invitation { margin-top: 44px; margin-bottom: 30px; font-size: 13px; }
-  .desktop-break { display: none; }
-  .signup { border: 0; gap: 10px; }
+  .paper-actions { gap: 10px; margin-top: 45px; }
+  .paper-scrap { width: 145px; min-height: 62px; padding: 13px 15px; font-size: 9px; }
+  .signup { padding: 26px 18px 22px; border: 1px solid rgba(244, 230, 168, .42); gap: 10px; }
   .signup .signup-fields { grid-template-columns: 1fr; border: 0; gap: 10px; }
   .signup input { padding: 13px 12px; border-bottom: 1px solid rgba(213, 234, 230, .58); text-align: center; }
   .signup button { padding: 12px; border: 1px solid rgba(213, 234, 230, .48); }
   .form-note, .form-message { grid-column: auto; }
   .form-message { order: 4; }
-  .about[aria-hidden="false"] { margin-top: 28px; }
+  .reveal-panel[aria-hidden="false"] { margin-top: 28px; }
   .about-inner { padding-left: 26px; padding-right: 26px; }
   .about[aria-hidden="false"] .about-inner { padding: 38px 28px 34px; }
   .about p { font-size: 13px; text-align: left; }
   .ridge-back { top: 62vh; height: 40vh; }
-  .ridge-front { top: 72vh; height: 35vh; }
 }
 
 @media (prefers-reduced-motion: reduce) {
