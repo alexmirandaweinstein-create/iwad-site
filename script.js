@@ -21,15 +21,20 @@ sizeNightToStory();
 const playPaperCrumple = () => {
   audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
   const now = audioContext.currentTime;
-  const duration = 0.38;
+  const duration = 0.72;
   const buffer = audioContext.createBuffer(1, audioContext.sampleRate * duration, audioContext.sampleRate);
   const samples = buffer.getChannelData(0);
+  let softNoise = 0;
 
   for (let i = 0; i < samples.length; i += 1) {
     const progress = i / samples.length;
-    const crackle = Math.random() > 0.965 ? (Math.random() * 2 - 1) * 1.8 : 0;
-    const rustle = (Math.random() * 2 - 1) * (1 - progress) ** 1.6;
-    samples[i] = (rustle + crackle) * 0.34;
+    softNoise = softNoise * 0.82 + (Math.random() * 2 - 1) * 0.18;
+    const folds =
+      Math.exp(-(((progress - 0.16) / 0.1) ** 2)) * 0.7 +
+      Math.exp(-(((progress - 0.43) / 0.15) ** 2)) * 0.95 +
+      Math.exp(-(((progress - 0.72) / 0.17) ** 2)) * 0.55;
+    const fineRustle = (Math.random() * 2 - 1) * 0.24;
+    samples[i] = (softNoise + fineRustle) * folds;
   }
 
   const source = audioContext.createBufferSource();
@@ -39,12 +44,12 @@ const playPaperCrumple = () => {
 
   source.buffer = buffer;
   highpass.type = 'highpass';
-  highpass.frequency.setValueAtTime(650, now);
+  highpass.frequency.setValueAtTime(280, now);
   lowpass.type = 'lowpass';
-  lowpass.frequency.setValueAtTime(5200, now);
-  lowpass.frequency.exponentialRampToValueAtTime(1700, now + duration);
+  lowpass.frequency.setValueAtTime(3400, now);
+  lowpass.frequency.exponentialRampToValueAtTime(1200, now + duration);
   gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.16, now + 0.018);
+  gain.gain.exponentialRampToValueAtTime(0.09, now + 0.09);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
   source.connect(highpass).connect(lowpass).connect(gain).connect(audioContext.destination);
