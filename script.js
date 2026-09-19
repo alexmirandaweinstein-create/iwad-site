@@ -4,6 +4,7 @@ const message = document.querySelector('#form-message');
 const night = document.querySelector('.night');
 const main = document.querySelector('main');
 const footer = document.querySelector('footer');
+let audioContext;
 
 // Paste the Google Apps Script web-app URL here after deploying it.
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzo-ksIRzlPxk905dmoDHttrTzntM0tPeDsrStWBlD2_JCNG9SBwK4Y-vIgxlm4_vAMLw/exec';
@@ -17,8 +18,43 @@ new ResizeObserver(sizeNightToStory).observe(main);
 window.addEventListener('resize', sizeNightToStory);
 sizeNightToStory();
 
+const playPaperCrumple = () => {
+  audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
+  const now = audioContext.currentTime;
+  const duration = 0.38;
+  const buffer = audioContext.createBuffer(1, audioContext.sampleRate * duration, audioContext.sampleRate);
+  const samples = buffer.getChannelData(0);
+
+  for (let i = 0; i < samples.length; i += 1) {
+    const progress = i / samples.length;
+    const crackle = Math.random() > 0.965 ? (Math.random() * 2 - 1) * 1.8 : 0;
+    const rustle = (Math.random() * 2 - 1) * (1 - progress) ** 1.6;
+    samples[i] = (rustle + crackle) * 0.34;
+  }
+
+  const source = audioContext.createBufferSource();
+  const highpass = audioContext.createBiquadFilter();
+  const lowpass = audioContext.createBiquadFilter();
+  const gain = audioContext.createGain();
+
+  source.buffer = buffer;
+  highpass.type = 'highpass';
+  highpass.frequency.setValueAtTime(650, now);
+  lowpass.type = 'lowpass';
+  lowpass.frequency.setValueAtTime(5200, now);
+  lowpass.frequency.exponentialRampToValueAtTime(1700, now + duration);
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.16, now + 0.018);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+  source.connect(highpass).connect(lowpass).connect(gain).connect(audioContext.destination);
+  source.start(now);
+  source.stop(now + duration);
+};
+
 toggles.forEach((toggle) => {
   toggle.addEventListener('click', () => {
+    playPaperCrumple();
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
 
     toggles.forEach((otherToggle) => {
